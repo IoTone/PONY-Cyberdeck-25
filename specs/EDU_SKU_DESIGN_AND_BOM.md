@@ -1,5 +1,9 @@
 # Overview
 
+An Education focused AI native computer, affordable for the world.
+
+世界中で手頃な価格の、教育に焦点を当てた AI ネイティブ コンピューター。
+
 <img width="1536" height="2752" alt="Image" src="https://github.com/user-attachments/assets/50b34dca-0c3d-4514-978d-34fbc1a22f93" />
 
 ## Design
