@@ -1,3 +1,9 @@
+# Overview
+
+<img width="1536" height="2752" alt="Image" src="https://github.com/user-attachments/assets/50b34dca-0c3d-4514-978d-34fbc1a22f93" />
+
+## Design
+
 COMPUTE
 - Cortadodeck 720 (Genio 720)
 
@@ -75,7 +81,6 @@ In addition I thought it made sense to have 2 not one directional stick pad, for
 
 Visual note: surface decals like the speaker holes and USBC port were added by Gemini for visual fidelity. Surface details like the USBC port and the Power Button are scaled slightly too large Gemini's render, making the device appear (slightly) smaller than it's true dimensions. 
 
-<img width="1536" height="2752" alt="Image" src="https://github.com/user-attachments/assets/50b34dca-0c3d-4514-978d-34fbc1a22f93" />
 
 
 Here is information about what a potential swap of joysticks for touchscreen would involve, and some UX concept for the two. 
