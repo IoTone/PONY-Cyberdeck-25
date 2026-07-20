@@ -1,0 +1,19 @@
+.DS_Store
+*~
+
+# Credential- and session-bearing dotfiles: never commit these.
+ponypi/.Xauthority
+ponypi/.config/kwalletrc
+ponypi/.config/pulse/cookie
+ponypi/.config/pulse/*.tdb
+ponypi/.config/configstore/
+
+# Machine-local state, not configuration.
+ponypi/.config/dconf/user
+ponypi/.config/btop/btop.log
+ponypi/.config/cmus/cache
+ponypi/.config/cmus/resume
+ponypi/.config/cmus/*-history
+ponypi/.config/ranger/history
+ponypi/.config/ranger/**/__pycache__/
+ponypi/.config/ranger/**/*.pyo
