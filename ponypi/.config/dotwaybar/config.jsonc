@@ -1,0 +1,81 @@
+[{
+    "layer": "top",
+    "position": "bottom",
+    "margin": "10",
+    "height": "80",
+	"output": "eDP-1", 
+    "modules-left": ["wlr/taskbar"],
+ //   "modules-center": ["clock"],
+    "modules-right": ["tray", "pulseaudio", "battery", "clock", "custom/notification"],
+    "battery": {
+        "format": "{icon} ",
+        "format-icons": ["", "", "", "", ""],
+        "states": {
+          "warning": 30,
+          "critical": 15
+        },
+    },
+  "wlr/taskbar": {
+    "icon-size": 50,
+    "on-click": "activate",
+    "on-click-right": "minimize",
+    "format": "{icon}"
+  },  
+  "custom/notification": {
+    "tooltip": false,
+    "format": "{icon}",
+    "format-icons": {
+      "notification": "<span foreground='red'><sup></sup></span>",
+      "none": "",
+      "dnd-notification": "<span foreground='red'><sup></sup></span>",
+      "dnd-none": "",
+      "inhibited-notification": "<span foreground='red'><sup></sup></span>",
+      "inhibited-none": "",
+      "dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
+      "dnd-inhibited-none": ""
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  },
+    "bluetooth": {
+        "format": " {status}",
+        "format-connected": " {device_alias}",
+        "format-connected-battery": " {device_alias}",
+        // "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
+        "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+        "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+        "on-click": "bluetooth toggle"
+    },
+    "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
+        "format": "{icon} {format_source}",
+        "format-bluetooth": "{icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": " {format_source}",
+        "format-source": "",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-scroll-up": "swayosd-client --output-volume raise",
+        "on-scroll-down": "swayosd-client --output-volume lower",
+        "on-click": "myxer"
+    },
+    "tray": {
+        "icon-size": 14,
+        "spacing": 10
+    }
+}]
+

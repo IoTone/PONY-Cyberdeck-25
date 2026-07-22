@@ -1,0 +1,15 @@
+[Install]
+WantedBy=graphical-session.target
+
+[Unit]
+Description=A wallaper thing for sway
+# PartOf=graphical-session.target
+PartOf=niri.service
+# Before=graphical-session.target
+# Requisite=graphical-session.target
+After=niri.service
+Requisite=niri.service
+
+[Service]
+ExecStart=/usr/bin/swaybg -m fill -i "%h/my_wallpapers/Fuji_san_by_amaral.png"
+Restart=on-failure

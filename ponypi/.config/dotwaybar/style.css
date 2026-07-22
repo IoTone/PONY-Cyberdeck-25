@@ -1,0 +1,346 @@
+/*
+*
+* Catppuccin Mocha palette
+* Maintainer: rubyowo
+*
+*/
+
+@define-color base   #1e1e2e;
+@define-color mantle #181825;
+@define-color crust  #11111b;
+
+@define-color text     #cdd6f4;
+@define-color subtext0 #a6adc8;
+@define-color subtext1 #bac2de;
+
+@define-color surface0 #313244;
+@define-color surface1 #45475a;
+@define-color surface2 #585b70;
+
+@define-color overlay0 #6c7086;
+@define-color overlay1 #7f849c;
+@define-color overlay2 #9399b2;
+
+@define-color blue      #89b4fa;
+@define-color lavender  #b4befe;
+@define-color sapphire  #74c7ec;
+@define-color sky       #89dceb;
+@define-color teal      #94e2d5;
+@define-color green     #a6e3a1;
+@define-color yellow    #f9e2af;
+@define-color peach     #fab387;
+@define-color maroon    #eba0ac;
+@define-color red       #f38ba8;
+@define-color mauve     #cba6f7;
+@define-color pink      #f5c2e7;
+@define-color flamingo  #f2cdcd;
+@define-color rosewater #f5e0dc;
+
+* {
+    /* `otf-font-awesome` is required to be installed for icons */
+    font-family: FontAwesome, Roboto, Helvetica, sans-serif;
+    font-size: 20px;
+}
+
+window#waybar {
+    transition-property: background-color;
+    transition-duration: .5s;
+    background-color: rgba(30, 30, 46, 0.8);
+    color: @text;
+    border-radius: 8;
+}
+
+window#waybar.hidden {
+    opacity: 0;
+}
+
+/*
+window#waybar.empty {
+    background-color: transparent;
+}
+window#waybar.solo {
+}
+*/
+
+window#waybar.termite {
+    background-color: #3F3F3F;
+}
+
+window#waybar.chromium {
+    background-color: #000000;
+    border: none;
+}
+
+button {
+    /* Use box-shadow instead of border so the text isn't offset */
+    box-shadow: inset 0 -3px transparent;
+    /* Avoid rounded borders under each button name */
+    border: none;
+    border-radius: 4px;
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+button:hover {
+    background: inherit;
+    box-shadow: inset 0 -3px @text;
+}
+
+#workspaces {
+    background-color: @base;
+    border-radius: 10px;
+    border-width: 2px;
+    border-image: linear-gradient(45deg, rgba(51,204,255,0.9) 0%, rgba(0,255,153,0.9) 100%); 
+}
+
+#workspaces button {
+    padding: 0 5px;
+    color: @text;
+}
+
+#workspaces button:hover {
+    background-color: @subtext0;
+    color: @base;
+}
+
+
+#workspaces button.focused {
+    background-color: @subtext0;
+    color: @base;
+    box-shadow: inset 0 -3px @text;
+}
+#workspaces button.active {
+    background-color: @base;
+    box-shadow: inset 0 -3px @text;
+
+}
+
+#workspaces button.active:hover {
+    background-color: @subtext0;
+    color: @base;
+}
+
+#workspaces button.urgent {
+    background-color: @subtext0;
+    color: @base;
+    box-shadow: inset 0 -3px @red;
+
+}
+
+#mode {
+    background-color: @base;
+    border-bottom: 3px solid @text;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#custom-notification,
+#pulseaudio,
+#bluetooth,
+#wireplumber,
+#custom-media,
+#tray,
+#taskbar,
+#window,
+#mode,
+#idle_inhibitor,
+#scratchpad,
+#custom-playerctl {
+    color: @text;
+    background-color: transparent;
+    border-image: linear-gradient(45deg, rgba(51,204,255,0.9) 0%, rgba(0,255,153,0.9) 100%); 
+    padding-right: 24px;
+}
+
+#taskbar {
+    padding: 4;
+}
+
+#workspaces {
+    margin: 2px;
+    padding: 4px;
+}
+
+/* If workspaces is the leftmost module, omit left margin */
+/*.modules-left > widget:first-child > #workspaces {
+    margin-left: 0;
+}
+*/
+/* If workspaces is the rightmost module, omit right margin */
+.modules-right > widget:last-child > #workspaces {
+    margin-right: 0;
+}
+
+#clock {
+}
+
+#battery {
+    color: @text;
+}
+
+#custom-notification {
+  font-family: "NotoSansMono Nerd Font";
+}
+
+#battery.charging, #battery.plugged {
+    color: @text;
+}
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: #000000;
+    }
+}
+
+#battery.critical:not(.charging) {
+    background-color: @red;
+    color: #ffffff;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+label:focus {
+}
+
+#cpu {
+    color: #000000;
+}
+
+#memory {
+}
+
+#disk {
+    background-color: #964B00;
+}
+
+#backlight {
+    background-color: #90b1b1;
+}
+
+#network {
+}
+
+#network.disconnected {
+    background-color: @red;
+}
+
+#pulseaudio {
+    background-color: transparent;
+    color: @text;
+}
+
+#pulseaudio.muted {
+    background-color: transparent;
+    color: @red;
+}
+
+#wireplumber {
+    background-color: #fff0f5;
+    color: #000000;
+}
+
+#wireplumber.muted {
+    background-color: #f53c3c;
+}
+
+#custom-media {
+    background-color: #66cc99;
+    color: #2a5c45;
+    min-width: 100px;
+}
+
+#custom-media.custom-spotify {
+    background-color: #66cc99;
+}
+
+#custom-media.custom-vlc {
+    background-color: #ffa000;
+}
+
+#temperature {
+    background-color: #f0932b;
+}
+
+#temperature.critical {
+    background-color: #eb4d4b;
+}
+
+#tray {
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #eb4d4b;
+}
+
+#idle_inhibitor {
+    background-color: #2d3436;
+}
+
+#idle_inhibitor.activated {
+    background-color: #ecf0f1;
+    color: #2d3436;
+}
+
+#mpd {
+    background-color: #66cc99;
+    color: #2a5c45;
+}
+
+#mpd.disconnected {
+    background-color: #f53c3c;
+}
+
+#mpd.stopped {
+    background-color: #90b1b1;
+}
+
+#mpd.paused {
+    background-color: #51a37a;
+}
+
+#language {
+    background: #00b093;
+    color: #740864;
+    padding: 0 5px;
+    margin: 0 5px;
+    min-width: 16px;
+}
+
+#keyboard-state {
+    background: #97e1ad;
+    color: #000000;
+    padding: 0 0px;
+    margin: 0 5px;
+    min-width: 16px;
+}
+
+#keyboard-state > label {
+    padding: 0 5px;
+}
+
+#keyboard-state > label.locked {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#scratchpad {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#scratchpad.empty {
+	background-color: transparent;
+}
+

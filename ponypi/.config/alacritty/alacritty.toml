@@ -1,0 +1,6 @@
+shell = "/usr/bin/fish"
+[window]
+opacity = 0.85
+blur = true
+[font]
+size = 16
