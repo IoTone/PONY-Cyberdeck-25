@@ -1,7 +1,7 @@
 # PONY Cyberdeck — Functional Specification Document (FSD)
 
 **Project:** CASE-8 / PONY Cyberdeck
-**Last updated:** 2026-07-20 (generated from open GitHub issues; NixOS status from [nix4mtk](https://github.com/RazortoothRTC/nix4mtk))
+**Last updated:** 2026-07-23 (generated from GitHub issues; NixOS status from [nix4mtk](https://github.com/RazortoothRTC/nix4mtk))
 
 ## 1. Overview
 
@@ -15,7 +15,8 @@ This document summarizes the functional scope of the project as tracked in GitHu
 
 | Status | Meaning |
 |---|---|
-| ✅ Done | Issue closed / delivered |
+| ✅ Done | Issue closed as completed / delivered |
+| ⛔ Closed (not pursued) | Closed without delivering — decided against or superseded |
 | 🔨 In progress | Active work, recent commits, or assignee driving it |
 | 🔍 Investigating | Research / design exploration underway |
 | 📋 Concept | Defined idea, not yet started (body is TODO/TBD or wishlist) |
@@ -44,9 +45,9 @@ All three compute engines (CPU/GPU/NPU) are validated with no open architectural
 
 | Issue | Feature | Status | Notes |
 |---|---|---|---|
-| [#1](../../issues/1) | PONY-opi-proto1 — first prototype build (Orange Pi Zero 3) | 🔨 In progress | Concept images and block diagram exist; assigned |
-| [#2](../../issues/2) | PONY-cbin-stem-proto1 — STEM/EDU prototype (Cortadobin, MTK Genio) | 📋 Concept | BOM, bringup, and build sections still TODO |
-| [#3](../../issues/3) | PONY-cbin-gamer-proto1 — gamer-focused prototype (Cortadobin) | 📋 Concept | Ubuntu 24.04 base; app list TBD |
+| [#1](../../issues/1) | PONY-opi-proto1 — first prototype build (Orange Pi Zero 3) | ✅ Done | Closed 2026-07-23 — concept testing complete; the Orange Pi version won't be maintained going forward |
+| [#2](../../issues/2) | PONY-cbin-stem-proto1 — STEM/EDU prototype (Cortadobin, MTK Genio) | ⛔ Closed (not pursued) | Closed 2026-07-23 — a Cortadobin-based prototype will not be pursued |
+| [#3](../../issues/3) | PONY-cbin-gamer-proto1 — gamer-focused prototype (Cortadobin) | ⛔ Closed (not pursued) | Closed 2026-07-23 — the design was an Android reference that doesn't match the current effort; minimal gaming support instead tracked in #40 |
 | [#13](../../issues/13) | Hardware enclosure / ergonomics POC1 | 🔨 In progress | Multiple enclosure concepts prototyped (clamshell soft case, etc.); assigned |
 | [#14](../../issues/14) | Power management design (PSU, battery, portability) | 📋 Concept | Write-up pending |
 | [#16](../../issues/16) | Maker-friendly Arduino / Pi-compatible pin header proto | 📋 Concept | Direct hardware access for developers |
@@ -60,6 +61,7 @@ All three compute engines (CPU/GPU/NPU) are validated with no open architectural
 | [#29](../../issues/29) | NixOS builds on public CI | 🔨 In progress | NixOS port lives in [nix4mtk](https://github.com/RazortoothRTC/nix4mtk): feature-complete alpha on Cortadodeck (Genio 720) — bit-identical vendor firmware, GPU-accelerated Weston desktop with touch, Wi-Fi/BT, and NPU inference all validated on hardware; NixOS 26.05, one-command build+flash. CI port itself is in progress (Jenkins gates for firmware bit-identity, config delta, and image builds; vendor bundle de-vendored to S3). Remaining: cameras, audio, WWAN, CI standup |
 | [#25](../../issues/25) | Document NIRI build for Debian/Ubuntu | 🔨 In progress | Dependency list captured in issue |
 | [#26](../../issues/26) | Document NIRI for Yocto or NixOS | 📋 Concept | Follows on from #25. Note: the NixOS target currently ships **Weston 13** (built against libmali) as its compositor — adopting NIRI there is not yet started |
+| [#41](../../issues/41) | Android compatibility (Waydroid, Valve "Lepton" Android layer) | 📋 Concept | Run Android apps on the deck; options being collected |
 
 ### 3.3 UX, Display Modes & Device Configuration
 
@@ -76,6 +78,7 @@ All three compute engines (CPU/GPU/NPU) are validated with no open architectural
 |---|---|---|---|
 | [#8](../../issues/8) | "AI" capability demo on MTK Genio (TTS, light LLM, voice/vision, assistant) | 🔨 In progress | NPU path is proven: NeuroPilot 8.2.16 + apusys running MobileNet inference on the APU on real hardware (nix4mtk Tier B3). Feature scoping (TTS, light LLM, voice/vision) still open; assigned |
 | [#34](../../issues/34) | Voice & AI integration architecture (AI as interaction layer driving the WM) | 🔍 Investigating | Pairs with #33; voice-driven, on-device LM |
+| [#39](../../issues/39) | Generative graphics use cases (Blender AI, [Burisu](https://github.com/IoTone/burisu)) | 📋 Concept | AI-assisted / generative visual tooling; ideas being gathered |
 
 ### 3.5 Connectivity & Communications
 
@@ -92,10 +95,10 @@ All three compute engines (CPU/GPU/NPU) are validated with no open architectural
 | [#10](../../issues/10) | EDU/STEM software installer & launcher (categories, filters) | 📋 Concept | Core EDU SKU experience |
 | [#12](../../issues/12) | Programming tools / EDU AI content (tinylisp, Scratch, Processing, Pyret…) | 🔍 Investigating | Candidate package list being built |
 | [#17](../../issues/17) | EDU integrations (e.g. Reachy Mini robot) | 📋 Concept | Idea collection |
+| [#37](../../issues/37) | Robotics integrations for EDU SKU (Vector/Anki, Reachy, micro:bit robot) | 📋 Concept | Ideas being gathered; related to #17 |
 | [#19](../../issues/19) | NFC gaming concepts for EDU SKU | 📋 Concept | — |
 | [#21](../../issues/21) | "Music instrument" device use cases (MIDI-BLE, ORCA, DAWs) | 📋 Concept | Wishlist in progress; may combine with #20 |
 | [#4](../../issues/4) | Pybricks / LEGO support | 🔍 Investigating | Assigned to Globalscale; references collected |
-| [#5](../../issues/5) | Arcade console emulator | 📋 Concept | ARM compatibility of Lutris/PlayOnLinux unverified |
 | [#6](../../issues/6) | "Home Assistant" / IoT software stack | 📋 Concept | TBD |
 
 ### 3.7 Security & Accessibility
@@ -116,17 +119,29 @@ All three compute engines (CPU/GPU/NPU) are validated with no open architectural
 | [#31](../../issues/31) | Japanese documentation for CASE8 / PONY deck | 📋 Concept | — |
 | [#32](../../issues/32) | Naming / branding | 🔍 Investigating | Horse breeds vs. horse names; trademark risk noted |
 
+### 3.9 Gaming & Emulation
+
+| Issue | Feature | Status | Notes |
+|---|---|---|---|
+| [#40](../../issues/40) | Gaming support (FEX-Emu x86 translation, emulators, Minecraft installer) | 📋 Concept | Spun out of the #3 closure — "minimum we should support some gaming"; options being examined |
+| [#5](../../issues/5) | Arcade console emulator | 📋 Concept | ARM compatibility of Lutris/PlayOnLinux unverified |
+
 ## 4. Status Summary
 
 | Status | Count |
 |---|---|
-| ✅ Done | 1 |
-| 🔨 In progress | 9 |
+| ✅ Done | 2 |
+| ⛔ Closed (not pursued) | 2 |
+| 🔨 In progress | 8 |
 | 🔍 Investigating | 6 |
-| 📋 Concept | 20 |
+| 📋 Concept | 22 |
 
-Active fronts right now: the **EDU SKU** (#36 spec + BOM, with #35 avatar screen seeing recent commits), the **NixOS port** (#29, feature-complete alpha in [nix4mtk](https://github.com/RazortoothRTC/nix4mtk) with the CI port underway), the **AI mode architecture** pair (#33/#34), and the long-running hardware prototyping tracks (#1, #13).
+*(40 issues total: 36 open, 4 closed. Excludes PR #38.)*
+
+Active fronts right now: the **EDU SKU** (#36 spec + BOM, with #35 avatar screen seeing recent commits), the **NixOS port** (#29, feature-complete alpha in [nix4mtk](https://github.com/RazortoothRTC/nix4mtk) with the CI port underway), the **AI mode architecture** pair (#33/#34), and the enclosure/ergonomics track (#13).
+
+Recent movement: the three original prototype builds closed on 2026-07-23 — #1 (Orange Pi) as a completed concept test, while #2 and #3 (both Cortadobin) were closed as not pursued. The gamer prototype's closure (#3) redirected gaming into a lighter-weight software effort, #40. Four new concept issues opened: robotics for EDU (#37), generative graphics (#39), gaming support (#40), and Android compatibility (#41).
 
 ## 5. Source of Truth
 
-This matrix is a snapshot generated from GitHub issues on 2026-07-20. The issues themselves remain the source of truth for detailed requirements; regenerate this document as issue states change.
+This matrix is a snapshot generated from GitHub issues on 2026-07-23. The issues themselves remain the source of truth for detailed requirements; regenerate this document as issue states change.
