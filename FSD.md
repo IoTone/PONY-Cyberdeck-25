@@ -1,7 +1,7 @@
 # PONY Cyberdeck — Functional Specification Document (FSD)
 
 **Project:** CASE-8 / PONY Cyberdeck
-**Last updated:** 2026-07-23 (generated from GitHub issues; NixOS status from [nix4mtk](https://github.com/RazortoothRTC/nix4mtk))
+**Last updated:** 2026-07-28 (generated from GitHub issues; NixOS status from [nix4mtk](https://github.com/RazortoothRTC/nix4mtk))
 
 ## 1. Overview
 
@@ -34,8 +34,8 @@ The reference software platform is the NixOS port of the MediaTek Genio 720 BSP 
 | Wi-Fi / Bluetooth (MT7961) | ✅ Validated on HW | `iw scan`, BT discovery |
 | NPU — apusys + NeuroPilot 8.2.16 | ✅ Validated on HW | `neuronrt` ran MobileNet on the APU |
 | Build & flash UX | ✅ One command | `nix build .#case8-720-flash --impure` → `aiot-flash -P result`; 2.93 GB image, rootfs auto-grows |
-| Cameras, audio, WWAN/5G | 🔲 Remaining | Tier B remainder |
-| Public CI port (Jenkins gates, S3 vendor bundle) | 🔨 In progress | Firmware gate proven 8/8 from the bundle; standup pending |
+| CI port (Jenkins gates, de-vendored from S3) | ✅ Green end-to-end | Full pipeline SUCCESS: eval + firmware 8/8 + config-delta + image gates, built from the S3 bundle |
+| Cameras, audio, WWAN/5G | 🔲 Remaining | Tier B remainder; camera bring-up in progress (imx258 + YuNet face detection) per recent commits, not yet marked complete on the board |
 
 All three compute engines (CPU/GPU/NPU) are validated with no open architectural risks. See nix4mtk `STATUS.md` for the authoritative, current state.
 
@@ -58,7 +58,7 @@ All three compute engines (CPU/GPU/NPU) are validated with no open architectural
 | Issue | Feature | Status | Notes |
 |---|---|---|---|
 | [#28](../../issues/28) | Yocto builds | ✅ Done | Closed 2026-07-09 |
-| [#29](../../issues/29) | NixOS builds on public CI | 🔨 In progress | NixOS port lives in [nix4mtk](https://github.com/RazortoothRTC/nix4mtk): feature-complete alpha on Cortadodeck (Genio 720) — bit-identical vendor firmware, GPU-accelerated Weston desktop with touch, Wi-Fi/BT, and NPU inference all validated on hardware; NixOS 26.05, one-command build+flash. CI port itself is in progress (Jenkins gates for firmware bit-identity, config delta, and image builds; vendor bundle de-vendored to S3). Remaining: cameras, audio, WWAN, CI standup |
+| [#29](../../issues/29) | NixOS builds on public CI | 🔨 In progress | NixOS port lives in [nix4mtk](https://github.com/RazortoothRTC/nix4mtk): feature-complete alpha on Cortadodeck (Genio 720) — bit-identical vendor firmware, GPU-accelerated Weston desktop with touch, Wi-Fi/BT, and NPU inference all validated on hardware; NixOS 26.05, one-command build+flash. **CI is now green end-to-end** — the full Jenkins pipeline (eval + firmware 8/8 + config-delta + image gates) passes, built from the de-vendored S3 bundle. Issue stays open pending formal closure / public exposure; platform remainder is cameras, audio, WWAN |
 | [#25](../../issues/25) | Document NIRI build for Debian/Ubuntu | 🔨 In progress | Dependency list captured in issue |
 | [#26](../../issues/26) | Document NIRI for Yocto or NixOS | 📋 Concept | Follows on from #25. Note: the NixOS target currently ships **Weston 13** (built against libmali) as its compositor — adopting NIRI there is not yet started |
 | [#41](../../issues/41) | Android compatibility (Waydroid, Valve "Lepton" Android layer) | 📋 Concept | Run Android apps on the deck; options being collected |
@@ -138,10 +138,10 @@ All three compute engines (CPU/GPU/NPU) are validated with no open architectural
 
 *(40 issues total: 36 open, 4 closed. Excludes PR #38.)*
 
-Active fronts right now: the **EDU SKU** (#36 spec + BOM, with #35 avatar screen seeing recent commits), the **NixOS port** (#29, feature-complete alpha in [nix4mtk](https://github.com/RazortoothRTC/nix4mtk) with the CI port underway), the **AI mode architecture** pair (#33/#34), and the enclosure/ergonomics track (#13).
+Active fronts right now: the **EDU SKU** (#36 spec + BOM, with #35 avatar screen seeing recent commits), the **NixOS port** (#29, feature-complete alpha in [nix4mtk](https://github.com/RazortoothRTC/nix4mtk) — **CI now green end-to-end**, with camera bring-up the next peripheral), the **AI mode architecture** pair (#33/#34), and the enclosure/ergonomics track (#13).
 
-Recent movement: the three original prototype builds closed on 2026-07-23 — #1 (Orange Pi) as a completed concept test, while #2 and #3 (both Cortadobin) were closed as not pursued. The gamer prototype's closure (#3) redirected gaming into a lighter-weight software effort, #40. Four new concept issues opened: robotics for EDU (#37), generative graphics (#39), gaming support (#40), and Android compatibility (#41).
+Recent movement: the nix4mtk **CI pipeline went green end-to-end** (eval + firmware bit-identity + config-delta + image gates, all from the S3 bundle), and camera bring-up (imx258 + YuNet face detection) is now underway. Earlier, the three original prototype builds closed on 2026-07-23 — #1 (Orange Pi) as a completed concept test, while #2 and #3 (both Cortadobin) were closed as not pursued; the gamer prototype's closure (#3) redirected gaming into a lighter-weight software effort, #40. Four concept issues remain from that batch: robotics for EDU (#37), generative graphics (#39), gaming support (#40), and Android compatibility (#41).
 
 ## 5. Source of Truth
 
-This matrix is a snapshot generated from GitHub issues on 2026-07-23. The issues themselves remain the source of truth for detailed requirements; regenerate this document as issue states change.
+This matrix is a snapshot generated from GitHub issues on 2026-07-28. The issues themselves remain the source of truth for detailed requirements; regenerate this document as issue states change.
