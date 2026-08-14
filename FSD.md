@@ -1,7 +1,7 @@
 # PONY Cyberdeck — Functional Specification Document (FSD)
 
 **Project:** CASE-8 / PONY Cyberdeck
-**Last updated:** 2026-07-28 (generated from GitHub issues; NixOS status from [nix4mtk](https://github.com/RazortoothRTC/nix4mtk))
+**Last updated:** 2026-08-13 (generated from GitHub issues; NixOS status from [nix4mtk](https://github.com/RazortoothRTC/nix4mtk))
 
 ## 1. Overview
 
@@ -35,7 +35,7 @@ The reference software platform is the NixOS port of the MediaTek Genio 720 BSP 
 | NPU — apusys + NeuroPilot 8.2.16 | ✅ Validated on HW | `neuronrt` ran MobileNet on the APU |
 | Build & flash UX | ✅ One command | `nix build .#case8-720-flash --impure` → `aiot-flash -P result`; 2.93 GB image, rootfs auto-grows |
 | CI port (Jenkins gates, de-vendored from S3) | ✅ Green end-to-end | Full pipeline SUCCESS: eval + firmware 8/8 + config-delta + image gates, built from the S3 bundle |
-| Cameras, audio, WWAN/5G | 🔲 Remaining | Tier B remainder; camera bring-up in progress (imx258 + YuNet face detection) per recent commits, not yet marked complete on the board |
+| Cameras, audio, WWAN/5G | 🔨 Cameras + audio landing | Both MIPI cameras (imx258, dual-sensor) now verified on hardware with the MTK camera backend; audio playback tuned. STATUS.md board still lists this row as Tier B remainder pending a formal re-score; WWAN/5G is the outstanding peripheral |
 
 All three compute engines (CPU/GPU/NPU) are validated with no open architectural risks. See nix4mtk `STATUS.md` for the authoritative, current state.
 
@@ -60,7 +60,7 @@ All three compute engines (CPU/GPU/NPU) are validated with no open architectural
 | [#28](../../issues/28) | Yocto builds | ✅ Done | Closed 2026-07-09 |
 | [#29](../../issues/29) | NixOS builds on public CI | 🔨 In progress | NixOS port lives in [nix4mtk](https://github.com/RazortoothRTC/nix4mtk): feature-complete alpha on Cortadodeck (Genio 720) — bit-identical vendor firmware, GPU-accelerated Weston desktop with touch, Wi-Fi/BT, and NPU inference all validated on hardware; NixOS 26.05, one-command build+flash. **CI is now green end-to-end** — the full Jenkins pipeline (eval + firmware 8/8 + config-delta + image gates) passes, built from the de-vendored S3 bundle. Issue stays open pending formal closure / public exposure; platform remainder is cameras, audio, WWAN |
 | [#25](../../issues/25) | Document NIRI build for Debian/Ubuntu | 🔨 In progress | Dependency list captured in issue |
-| [#26](../../issues/26) | Document NIRI for Yocto or NixOS | 📋 Concept | Follows on from #25. Note: the NixOS target currently ships **Weston 13** (built against libmali) as its compositor — adopting NIRI there is not yet started |
+| [#26](../../issues/26) | Document NIRI for Yocto or NixOS | 🔨 In progress | First checkbox landed: the niri configs are now in this repo (`ponypi/.config/niri`, merged via PR #38); niri setup on NixOS confirmed straightforward per the issue. Nix flakes here + quirk docs still to come. Note the shipping NixOS image compositor remains **Weston 13** (built against libmali) |
 | [#41](../../issues/41) | Android compatibility (Waydroid, Valve "Lepton" Android layer) | 📋 Concept | Run Android apps on the deck; options being collected |
 
 ### 3.3 UX, Display Modes & Device Configuration
@@ -76,8 +76,8 @@ All three compute engines (CPU/GPU/NPU) are validated with no open architectural
 
 | Issue | Feature | Status | Notes |
 |---|---|---|---|
-| [#8](../../issues/8) | "AI" capability demo on MTK Genio (TTS, light LLM, voice/vision, assistant) | 🔨 In progress | NPU path is proven: NeuroPilot 8.2.16 + apusys running MobileNet inference on the APU on real hardware (nix4mtk Tier B3). Feature scoping (TTS, light LLM, voice/vision) still open; assigned |
-| [#34](../../issues/34) | Voice & AI integration architecture (AI as interaction layer driving the WM) | 🔍 Investigating | Pairs with #33; voice-driven, on-device LM |
+| [#8](../../issues/8) | "AI" capability demo on MTK Genio (TTS, light LLM, voice/vision, assistant) | 🔨 In progress | Beyond the proven NPU path (NeuroPilot 8.2.16 + apusys, MobileNet on the APU), the **Diana AI** assistant now runs on-device in nix4mtk: a light local LLM (qwen3.5:0.8b) driving a 17-tool two-tier router, voice with barge-in, and vision via YuNet face detection + a camera-aim wrapper. Covers the "Diana AI" and voice/vision items in the issue; TTS and remaining scoping open; assigned |
+| [#34](../../issues/34) | Voice & AI integration architecture (AI as interaction layer driving the WM) | 🔨 In progress | Pairs with #33. The Diana stack (see #8) is a concrete instance: a voice-driven, on-device LM with barge-in and a two-tier tool router that can take actions — the interaction-layer pattern this issue describes |
 | [#39](../../issues/39) | Generative graphics use cases (Blender AI, [Burisu](https://github.com/IoTone/burisu)) | 📋 Concept | AI-assisted / generative visual tooling; ideas being gathered |
 
 ### 3.5 Connectivity & Communications
@@ -92,8 +92,8 @@ All three compute engines (CPU/GPU/NPU) are validated with no open architectural
 
 | Issue | Feature | Status | Notes |
 |---|---|---|---|
-| [#10](../../issues/10) | EDU/STEM software installer & launcher (categories, filters) | 📋 Concept | Core EDU SKU experience |
-| [#12](../../issues/12) | Programming tools / EDU AI content (tinylisp, Scratch, Processing, Pyret…) | 🔍 Investigating | Candidate package list being built |
+| [#10](../../issues/10) | EDU/STEM software installer & launcher (categories, filters) | 🔨 In progress | Real implementation underway in nix4mtk **deck-packs**: an app-pack installer engine with an "App Packs" touch UI (Phase 0/1), Tier-1 packs + python-edu, and an embedded PlatformIO/VSCodium reference pack, backed by a self-hosted binary cache. Individual `nix profile install` on top of packs (nix-software-center) being scoped in the issue thread |
+| [#12](../../issues/12) | Programming tools / EDU AI content (tinylisp, Scratch, Processing, Pyret…) | 🔍 Investigating | Candidate package list being built; first concrete landings via deck-packs — a **poplog** (Pop-11) port now building on aarch64 and a python-edu pack |
 | [#17](../../issues/17) | EDU integrations (e.g. Reachy Mini robot) | 📋 Concept | Idea collection |
 | [#37](../../issues/37) | Robotics integrations for EDU SKU (Vector/Anki, Reachy, micro:bit robot) | 📋 Concept | Ideas being gathered; related to #17 |
 | [#19](../../issues/19) | NFC gaming concepts for EDU SKU | 📋 Concept | — |
@@ -132,16 +132,16 @@ All three compute engines (CPU/GPU/NPU) are validated with no open architectural
 |---|---|
 | ✅ Done | 2 |
 | ⛔ Closed (not pursued) | 2 |
-| 🔨 In progress | 8 |
-| 🔍 Investigating | 6 |
-| 📋 Concept | 22 |
+| 🔨 In progress | 11 |
+| 🔍 Investigating | 5 |
+| 📋 Concept | 20 |
 
 *(40 issues total: 36 open, 4 closed. Excludes PR #38.)*
 
-Active fronts right now: the **EDU SKU** (#36 spec + BOM, with #35 avatar screen seeing recent commits), the **NixOS port** (#29, feature-complete alpha in [nix4mtk](https://github.com/RazortoothRTC/nix4mtk) — **CI now green end-to-end**, with camera bring-up the next peripheral), the **AI mode architecture** pair (#33/#34), and the enclosure/ergonomics track (#13).
+Active fronts right now: the **on-device AI** (#8/#34 — the Diana assistant: local LLM + tool router + voice/vision, running on hardware), the **EDU software stack** (#10 deck-packs installer + App Packs touch UI, #12 first packs, #36 SKU spec + BOM with #35 avatar screen), the **NixOS port** (#29, feature-complete alpha in [nix4mtk](https://github.com/RazortoothRTC/nix4mtk) — CI green end-to-end, cameras + audio now landing), and the mesh/enclosure tracks (#7, #13).
 
-Recent movement: the nix4mtk **CI pipeline went green end-to-end** (eval + firmware bit-identity + config-delta + image gates, all from the S3 bundle), and camera bring-up (imx258 + YuNet face detection) is now underway. Earlier, the three original prototype builds closed on 2026-07-23 — #1 (Orange Pi) as a completed concept test, while #2 and #3 (both Cortadobin) were closed as not pursued; the gamer prototype's closure (#3) redirected gaming into a lighter-weight software effort, #40. Four concept issues remain from that batch: robotics for EDU (#37), generative graphics (#39), gaming support (#40), and Android compatibility (#41).
+Recent movement (upstream nix4mtk, through 2026-07-27; no PONY-repo commits since the last refresh): the **Diana AI** assistant came online on-device — a light local LLM (qwen3.5:0.8b) behind a 17-tool two-tier router, voice barge-in, and YuNet face-detection vision — advancing #8 and #34. **Both MIPI cameras (imx258) were verified on hardware** and audio was tuned, moving the platform's remaining-peripherals row. The EDU launcher gained a real implementation in **deck-packs** (installer engine + touch UI + python-edu / PlatformIO packs), lifting #10 off the concept list, and a **poplog** (Pop-11) port now builds on aarch64 for #12. The **niri** configs landed in this repo via PR #38, starting #26. Issue states themselves are unchanged since the last refresh (36 open, 4 closed); the shifts above are status re-scores from work in progress.
 
 ## 5. Source of Truth
 
-This matrix is a snapshot generated from GitHub issues on 2026-07-28. The issues themselves remain the source of truth for detailed requirements; regenerate this document as issue states change.
+This matrix is a snapshot generated from GitHub issues on 2026-08-13. The issues themselves remain the source of truth for detailed requirements; regenerate this document as issue states change.
